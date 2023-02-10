@@ -39,6 +39,12 @@ app.get("/api/persons", (request, response) => {
   });
 });
 
+app.get("/api/persons/name/:name", (request, response) => {
+  Person.findOne({ name: request.params.name }).then((persons) => {
+    response.json(persons);
+  });
+});
+
 app.get("/api/persons/:id", (request, response, next) => {
   Person.findById(request.params.id)
     .then((person) => {
@@ -73,9 +79,7 @@ app.put("/api/persons/:id", (request, response, next) => {
     .then((updatedPerson) => {
       response.json(updatedPerson);
     })
-    .catch((error) => {
-      next(error);
-    });
+    .catch((error) => next(error));
 });
 
 app.post("/api/persons", (request, response) => {
